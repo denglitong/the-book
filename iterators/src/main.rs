@@ -54,7 +54,7 @@ pub trait MyIterator {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     #[test]
     fn iterator_demonstration() {
         let v1 = vec![1, 2, 3];
@@ -99,7 +99,7 @@ fn shoes_in_my_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
 }
 
 #[cfg(test)]
-mod tests {
+mod tests_2 {
     use super::*;
 
     #[test]

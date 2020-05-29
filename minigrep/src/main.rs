@@ -13,9 +13,8 @@ use std::{env, process};
 // Handling the error if run returns an error
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    let config = Config::new(&args).unwrap_or_else(|err| {
+    // env::args() return an iter and can consume values in it thus not to borrow string value
+    let config = Config::new(env::args()).unwrap_or_else(|err| {
         // stdout
         // println!("Problem parsing arguments: {}", err);
         // stderr

@@ -1,4 +1,5 @@
 use std::env;
+use std::env::Args;
 use std::error::Error;
 use std::fs;
 
@@ -8,12 +9,19 @@ pub struct Config {
     pub case_sensitive: bool,
 }
 impl Config {
-    pub fn new(args: &[String]) -> Result<Self, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
-        let query = args[1].clone();
-        let filename = args[2].clone();
+    // env:args() returns an iterator
+    pub fn new(mut args: Args) -> Result<Config, &'static str> {
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
+
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file name"),
+        };
 
         // we don't care about the value of the env var, just whether it's set or unset
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
@@ -44,6 +52,9 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(query: &'a str, contents: &'a str) -> Vec<&'a str> {
+    // the iterator performance is faster than for loop
+    // iterators, although a high-level abstraction, get complied down to roughly the same code
+    // as if you'd written the lower-level code. `zero-cost abstractions`
     contents
         .lines()
         .filter(|line| line.contains(query))

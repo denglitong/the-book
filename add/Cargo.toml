@@ -1,0 +1,9 @@
+# A workspace is a set of packages that share the same Cargo.lock and target dir,
+# crates in a workspace meant to depend on each other.
+[workspace]
+
+members = [
+    "adder",
+    "add-one",
+    "add-two",
+]

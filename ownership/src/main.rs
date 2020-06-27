@@ -61,8 +61,15 @@ fn main() {
     // tuples, if they only contain type that are also Copy, (i32, char)
 
     // passing a variable to a function will move or copy, just as assignment does
-    let s = String::from("hello");
+    let mut s = String::from("hello");
+    // ownership move in block/closure， and this ownership only visible in this block/closure
     takes_ownership(s);
+
+    // when ownership has been taken, the variable can not be borrowed after move,
+    // but you can assign to it again, which assign a new ownership to it
+    // s = String::from("world");
+    // println!("{}", s);
+
     let x = 5;
     makes_copy(x);
 
